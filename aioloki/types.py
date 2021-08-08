@@ -17,10 +17,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from typing import List, Dict, Tuple, TypedDict
 
+
 class LokiStream(TypedDict):
     stream: Dict[str, str]
     values: List[Tuple[str, str]]
 
+
 class LokiPayload(TypedDict):
     streams: List[LokiStream]
-

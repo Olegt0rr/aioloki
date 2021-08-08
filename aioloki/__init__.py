@@ -24,11 +24,13 @@ from typing import NamedTuple, Literal
 
 from .handler import *
 
+
 class VersionInfo(NamedTuple):
     major: int
     minor: int
     micro: int
     releaseLevel: Literal['alpha', 'beta', 'candidate', 'final']
     serial: int
+
 
 version_info = VersionInfo(major=0, minor=0, micro=1, releaseLevel='alpha', serial=0)

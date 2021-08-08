@@ -24,17 +24,17 @@ import aiohttp
 
 from . import types
 
-__all__ = (
-    'AioLokiHandler',
-)
+__all__ = ('AioLokiHandler',)
+
 
 class AioLokiHandler(logging.Handler):
     def __init__(
         self,
         url: str,
-        /, *,
+        /,
+        *,
         session: aiohttp.ClientSession,
-        tags: Optional[Dict[str, str]]=None,
+        tags: Optional[Dict[str, str]] = None,
     ) -> None:
         super().__init__()
         self._queue = asyncio.Queue[logging.LogRecord]()
@@ -60,7 +60,7 @@ class AioLokiHandler(logging.Handler):
         tags['severity'] = log.levelname
         tags['logger'] = log.name
         try:
-            extra_tags = log.tags # type: ignore
+            extra_tags = log.tags  # type: ignore
         except AttributeError:
             pass
         else:
@@ -70,12 +70,9 @@ class AioLokiHandler(logging.Handler):
     def build_payload(self, log: logging.LogRecord, /) -> types.LokiPayload:
         labels = self.build_tags(log)
         return {
-            "streams": [{
-                "stream": labels,
-                "values": [
-                    (str(int(log.created * 1e9)), self.format(log))
-                ]
-            }]
+            "streams": [
+                {"stream": labels, "values": [(str(int(log.created * 1e9)), self.format(log))]}
+            ]
         }
 
     def emit(self, record: logging.LogRecord) -> None:
